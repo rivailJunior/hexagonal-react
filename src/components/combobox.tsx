@@ -1,13 +1,10 @@
 import React from "react";
 import "./combobox.css";
 import ComboboxHelper from "../helper/combobox";
+import type { ComboOptionsProps, ComboboxProps } from "./combobox.types";
 const comboboxHelper = new ComboboxHelper("#country", "#countries");
 
-type ComboOptionsProps = {
-  value: string;
-};
-
-const ComboOptions = ({ value }: ComboOptionsProps): JSX.Element => {
+const ComboOptions = ({ value, flag }: ComboOptionsProps): JSX.Element => {
   return (
     <li
       data-testid="custom-list-item"
@@ -17,20 +14,19 @@ const ComboOptions = ({ value }: ComboOptionsProps): JSX.Element => {
         comboboxHelper.toggleList("none");
       }}
     >
-      {value}
+      <div>{value}</div>
+      <div>{flag}</div>
     </li>
   );
 };
 
-type ComboboxProps = {
-  setValue: (value: string) => void;
-  value: string;
-  children: React.ReactNode;
-};
-
 const Combobox = ({ children, setValue, value }: ComboboxProps) => {
-  const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+  const handleChangeInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const inputVal = evt.target.value;
+    setValue(inputVal);
+    if (inputVal.length === 0) {
+      return comboboxHelper.toggleList("none");
+    }
     comboboxHelper.toggleList("block");
   };
 

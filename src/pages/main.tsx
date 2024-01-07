@@ -19,6 +19,7 @@ export const Main = ({ countryDao }: { countryDao: CountryDAO }) => {
         <Combobox.Option
           key={country.name.common}
           value={country.name.common}
+          flag={country.flag}
         />
       ))}
     </Combobox>
