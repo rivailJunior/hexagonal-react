@@ -7,11 +7,12 @@ export default class CountryDAO implements CountryDaoInterface {
 
   getCountry = async (countryName: string): Promise<Country[] | undefined> => {
     try {
-      const data = await this.httpClient.get<Country[]>(`/name/${countryName}`);
+      const data = await this.httpClient.get<Country[]>(
+        `/name/${countryName}?fields=name,capital,currencies,flag`
+      );
       return data;
     } catch (error) {
-      // TODO: remove console
-      console.log(error);
+      // console.log(error);
     }
   };
 }

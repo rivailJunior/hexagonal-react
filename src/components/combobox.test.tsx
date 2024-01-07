@@ -24,7 +24,7 @@ const ComponentFake = ({ setValue = () => {} }: { setValue?: any }) => (
 describe("Combobox", () => {
   it("should render a combobox with input and label", () => {
     render(<ComponentFake />);
-    const inputElement = screen.getByRole("combobox");
+    const inputElement = screen.getByRole("textbox");
     const labelElement = screen.getByText("Search Country");
 
     expect(inputElement).toBeInTheDocument();
@@ -34,7 +34,7 @@ describe("Combobox", () => {
   it("should call setValue when input value changes", () => {
     const setValueMock = jest.fn();
     render(<ComponentFake setValue={setValueMock} />);
-    const inputElement = screen.getByRole("combobox");
+    const inputElement = screen.getByRole("textbox");
 
     fireEvent.change(inputElement, { target: { value: "Brazil" } });
 

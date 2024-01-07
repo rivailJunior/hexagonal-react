@@ -11,7 +11,7 @@ const countryDAO = new CountryDAO({
 describe("CountryDAO", () => {
   it("should call HttpClient.get with the correct URL", async () => {
     const countryName = "Brazil";
-    const expectedUrl = `/name/${countryName}`;
+    const expectedUrl = `/name/${countryName}?fields=name,capital,currencies,flag`;
 
     await countryDAO.getCountry(countryName);
 
@@ -20,7 +20,7 @@ describe("CountryDAO", () => {
 
   it("should return the data from HttpClient.get", async () => {
     const countryName = "Brazil";
-    const expectedData = [CountryMock];
+    const expectedData = CountryMock;
 
     httpClientMock.get.mockImplementation(() => Promise.resolve(expectedData));
 

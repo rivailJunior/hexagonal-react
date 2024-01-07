@@ -1,5 +1,7 @@
 import React from "react";
 import "./combobox.css";
+import ComboboxHelper from "../helper/combobox";
+const comboboxHelper = new ComboboxHelper("#country", "#countries");
 
 type ComboOptionsProps = {
   value: string;
@@ -7,9 +9,16 @@ type ComboOptionsProps = {
 
 const ComboOptions = ({ value }: ComboOptionsProps): JSX.Element => {
   return (
-    <option data-testid="custom-list-item" value={value}>
+    <li
+      data-testid="custom-list-item"
+      value={value}
+      onClick={() => {
+        comboboxHelper.updateInputValue(value);
+        comboboxHelper.toggleList("none");
+      }}
+    >
       {value}
-    </option>
+    </li>
   );
 };
 
@@ -20,6 +29,11 @@ type ComboboxProps = {
 };
 
 const Combobox = ({ children, setValue, value }: ComboboxProps) => {
+  const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+    comboboxHelper.toggleList("block");
+  };
+
   return (
     <div className="input-container">
       <label htmlFor="country" className="mb-3" role="label">
@@ -28,17 +42,15 @@ const Combobox = ({ children, setValue, value }: ComboboxProps) => {
       <input
         type="text"
         value={value}
-        onChange={(e) => {
-          setValue(e.target.value);
-        }}
+        onChange={handleChangeInput}
         className="custom-input"
         placeholder="ex: Brazil"
-        list="countries"
+        id="country"
       />
 
-      <datalist id="countries" data-testid="countryList">
+      <ul id="countries" data-testid="countryList">
         {children}
-      </datalist>
+      </ul>
     </div>
   );
 };

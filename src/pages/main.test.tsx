@@ -9,8 +9,8 @@ const httpClientMock = {
 
 const countryDao = new CountryDAO(httpClientMock);
 
-describe("App", () => {
-  const expectedData = [CountryMock];
+describe("Main", () => {
+  const expectedData = CountryMock;
   const countryName = "Brazil";
 
   test("should render App with input and label and no list", async () => {
@@ -19,7 +19,9 @@ describe("App", () => {
       screen.getByRole("label", { name: "Search Country" })
     ).toBeInTheDocument();
 
-    expect(screen.getByRole("combobox", { name: "" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("textbox", { name: "Search Country" })
+    ).toBeInTheDocument();
     expect(
       screen.queryByRole("list", { name: "countries" })
     ).not.toBeInTheDocument();
@@ -32,9 +34,12 @@ describe("App", () => {
 
     // eslint-disable-next-line testing-library/no-unnecessary-act
     await act(() => {
-      fireEvent.change(screen.getByRole("combobox", { name: "" }), {
-        target: { value: "Brazil" },
-      });
+      fireEvent.change(
+        screen.getByRole("textbox", { name: "Search Country" }),
+        {
+          target: { value: "Brazil" },
+        }
+      );
     });
 
     expect(await screen.findByTestId("countryList")).toBeInTheDocument();
